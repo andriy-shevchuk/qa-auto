@@ -6,7 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import org.testng.asserts.SoftAssert;
+import page.LoginPage;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,50 +33,40 @@ public class LoginTest {
     @Test
     public void PositiveLoginTest() {
 
-        WebElement emailField = webDriver.findElement(By.xpath("//input[@type='email']"));
-        WebElement passwordField = webDriver.findElement(By.xpath("//input[@type='password']"));
-        WebElement GoButton = webDriver.findElement(By.xpath("//*[@class='button' and text()='GO']"));
-
+        LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
 
-        emailField.sendKeys("denvert1@shotspotter.net");
-        passwordField.sendKeys("Test123!");
-        GoButton.click();
+        loginPage.typeEmail("denvert1@shotspotter.net");
+        loginPage.typePassword("Test123!");
+        loginPage.clickGoButton();
 
         Assert.assertEquals(webDriver.getTitle(), "Shotspotter - Login", "Main page title is wrong");
         WebElement settingsItem = webDriver.findElement(By.className("settings"));
         Assert.assertTrue(settingsItem.isDisplayed(), "settings icon is not displayed");
         Assert.assertTrue(webDriver.getCurrentUrl().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
 
-        //Assert.assertEquals(webDriver.getTitle(), "")
-//        SoftAssert assertion = new SoftAssert();
-//
-//
-//        assertion.assertTrue(webDriver.findElement(By.xpath("//*[@class='settings']")).isDisplayed());
-//        assertion.assertTrue(webDriver.getCurrentUrl().contains("https://alerts.shotspotter.biz/main"));
-//
-//
-//        assertion.assertAll();
-
     }
 
-//    @Test
-//    public void NegativeLoginTest1() {
-//        WebDriver webDriver = new FirefoxDriver();
-//        webDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-//        webDriver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-//        webDriver.navigate().to("https://alerts.shotspotter.biz/");
-//
-//        webDriver.findElement(By.xpath("//input[@type='email']")).sendKeys("incorrectEmail");
-//        webDriver.findElement(By.xpath("//input[@type='password']")).sendKeys("IncorrectPassword");
-//        webDriver.findElement(By.xpath("//*[@class='button' and text()='GO']")).click();
-//
-//        SoftAssert assertion = new SoftAssert();
-//        assertion.assertTrue(webDriver.findElement(By.xpath("//*[@class='invalid-credentials']")).isDisplayed());
-//        webDriver.quit();
-//        assertion.assertAll();
-//
-//    }
+    @Test
+    public void NegativeLoginTest1() {
+
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        loginPage.typeEmail("incorrectEmail");
+        loginPage.typePassword("IncorrectPassword");
+        loginPage.clickGoButton();
+
+        try {
+            Assert.assertTrue(webDriver.findElement(By.xpath("//*[@class='invalid-credentials']")).isDisplayed());
+        } catch (Exception e) {
+            throw new AssertionError("no invalid credentials element displayed");
+        }
+
+
+
+
+
+    }
 
 }
