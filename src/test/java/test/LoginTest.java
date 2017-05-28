@@ -63,10 +63,6 @@ public class LoginTest {
             throw new AssertionError("no invalid credentials element displayed");
         }
 
-
-
-
-
     }
 
 }
