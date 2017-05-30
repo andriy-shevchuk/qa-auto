@@ -27,6 +27,7 @@ public class LoginTest {
 
     @AfterMethod
     public void afterMethod() {
+
         webDriver.quit();
     }
 
@@ -37,8 +38,9 @@ public class LoginTest {
 
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
 
-        loginPage.typeEmail("denvert1@shotspotter.net");
-        loginPage.typePassword("Test123!");
+        loginPage.LoginBy("denvert1@shotspotter.net","Test123!");
+        //loginPage.typeEmail("denvert1@shotspotter.net");
+        //loginPage.typePassword("Test123!");
         loginPage.clickGoButton();
 
         Assert.assertEquals(webDriver.getTitle(), "Shotspotter - Login", "Main page title is wrong");

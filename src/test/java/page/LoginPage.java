@@ -14,6 +14,7 @@ public class LoginPage {
     By goButton = By.xpath("//*[@class='button' and text()='GO']");
 
     public LoginPage (WebDriver driver) {
+
         this.driver = driver;
     }
 
@@ -23,6 +24,12 @@ public class LoginPage {
     }
 
     public void typePassword(String password) {
+
+        driver.findElement(passwordField).sendKeys(password);
+    }
+
+    public void LoginBy(String email, String password) {
+        driver.findElement(emailField).sendKeys(email);
         driver.findElement(passwordField).sendKeys(password);
     }
 
