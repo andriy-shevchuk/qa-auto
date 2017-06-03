@@ -1,14 +1,12 @@
 package test;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import page.LoginPage;
-
-import java.util.concurrent.TimeUnit;
+import page.MainPage;
 
 /**
  * Created by Admin on 20.05.2017.
@@ -20,9 +18,8 @@ public class LoginTest {
     @BeforeMethod
     public void beforeMethod() {
         webDriver = new FirefoxDriver();
-        webDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        webDriver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
-        webDriver.navigate().to("https://alerts.shotspotter.biz/");
+
+
     }
 
     @AfterMethod
@@ -34,18 +31,14 @@ public class LoginTest {
     @Test
     public void PositiveLoginTest() {
 
-        LoginPage loginPage = new LoginPage(webDriver);
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
+        Assert.assertEquals(webDriver.getTitle(), "ShotSpotter - Login", "Main page title is wrong");
 
-        loginPage.LoginBy("denvert1@shotspotter.net","Test123!");
-        //loginPage.typeEmail("denvert1@shotspotter.net");
-        //loginPage.typePassword("Test123!");
-        loginPage.clickGoButton();
+        MainPage mainPage = loginPage.LoginBy("denvert1@shotspotter.net","Test123!");
 
-        Assert.assertEquals(webDriver.getTitle(), "Shotspotter - Login", "Main page title is wrong");
-        WebElement settingsItem = webDriver.findElement(By.className("settings"));
-        Assert.assertTrue(settingsItem.isDisplayed(), "settings icon is not displayed");
+        Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
         Assert.assertTrue(webDriver.getCurrentUrl().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
 
     }
@@ -53,17 +46,11 @@ public class LoginTest {
     @Test
     public void NegativeLoginTest1() {
 
-        LoginPage loginPage = new LoginPage(webDriver);
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 
-        loginPage.typeEmail("incorrectEmail");
-        loginPage.typePassword("IncorrectPassword");
-        loginPage.clickGoButton();
+        loginPage.IncorrectLogin("IncorrectEmail", "IncorrectPassword");
 
-        try {
-            Assert.assertTrue(webDriver.findElement(By.xpath("//*[@class='invalid-credentials']")).isDisplayed());
-        } catch (Exception e) {
-            throw new AssertionError("no invalid credentials element displayed");
-        }
+        Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed());
 
     }
 
