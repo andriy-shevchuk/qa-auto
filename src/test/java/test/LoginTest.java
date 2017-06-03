@@ -31,26 +31,29 @@ public class LoginTest {
     @Test
     public void PositiveLoginTest() {
 
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
-        Assert.assertEquals(webDriver.getTitle(), "ShotSpotter - Login", "Main page title is wrong");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
+        Assert.assertEquals(loginPage.getPageTitle(), "ShotSpotter - Login", "Main page title is wrong");
 
         MainPage mainPage = loginPage.LoginBy("denvert1@shotspotter.net","Test123!");
 
         Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
-        Assert.assertTrue(webDriver.getCurrentUrl().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
+        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
 
     }
 
     @Test
     public void NegativeLoginTest1() {
 
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        String expectedErrorMsg = "The provided credentials are not correct.";
 
-        loginPage.IncorrectLogin("IncorrectEmail", "IncorrectPassword");
+        LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed());
+        LoginPage resultPage = loginPage.IncorrectLogin("IncorrectEmail", "IncorrectPassword");
+        Assert.assertTrue(resultPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");
+        Assert.assertEquals(loginPage.getErrorText(), expectedErrorMsg, "Error text is wrong");
+        Assert.assertTrue(resultPage.isLoginPageLoaded(), "Login page is not loaded");
 
     }
 
