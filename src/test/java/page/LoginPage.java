@@ -4,8 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by Admin on 27.05.2017.
  */
@@ -26,34 +24,29 @@ public class LoginPage extends BasePage{
     public LoginPage (WebDriver driver) {
         super(driver);
         driver.navigate().to("https://alerts.shotspotter.biz/");
-        PageFactory.initElements(driver, this);
-
     }
 
-    public MainPage LoginBy(String email, String password) {
+    public <T> T login(String email, String password, Class <T> expectedPage) {
         emailField.sendKeys(email);
         passwordField.sendKeys(password);
         goButton.click();
-        return new MainPage(webDriver);
-    }
-
-    public LoginPage IncorrectLogin(String email, String password) {
-        emailField.sendKeys(email);
-        passwordField.sendKeys(password);
-        goButton.click();
-        return this;
+        if (expectedPage == LoginPage.class) {
+            return (T) this;
+        } else {
+            return PageFactory.initElements(webDriver, expectedPage);
+        }
     }
 
     public boolean IsInvalidCredentialsDisplayed() {
-        return invalidCredentials.isDisplayed();
+        return waitUntilElementDisplayed(invalidCredentials, 15).isDisplayed();
     }
 
     public String getErrorText() {
-        return invalidCredentials.getText();
+        return waitUntilElementDisplayed(invalidCredentials, 15).getText();
     }
 
     public boolean isLoginPageLoaded() {
-        return emailField.isDisplayed();
+        return waitUntilElementDisplayed(emailField, 15).isDisplayed();
     }
 
 
