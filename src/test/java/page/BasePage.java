@@ -16,8 +16,6 @@ public class BasePage {
 
     public BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
-        webDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        webDriver.manage().timeouts().pageLoadTimeout(15, TimeUnit.SECONDS);
     }
 
     public String getPageURL() {
