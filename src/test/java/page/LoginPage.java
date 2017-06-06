@@ -1,4 +1,5 @@
 package page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -48,6 +49,4 @@ public class LoginPage extends BasePage{
     public boolean isLoginPageLoaded() {
         return waitUntilElementDisplayed(emailField, 15).isDisplayed();
     }
-
-
 }
