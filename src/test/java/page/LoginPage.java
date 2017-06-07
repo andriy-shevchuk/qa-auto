@@ -25,17 +25,26 @@ public class LoginPage extends BasePage{
     public LoginPage (WebDriver driver) {
         super(driver);
         driver.navigate().to("https://alerts.shotspotter.biz/");
+        PageFactory.initElements(webDriver, this);
     }
 
     public <T> T login(String email, String password, Class <T> expectedPage) {
         emailField.sendKeys(email);
         passwordField.sendKeys(password);
         goButton.click();
-        if (expectedPage == LoginPage.class) {
+        if(expectedPage == LoginPage.class) {
             return (T) this;
         } else {
-            return PageFactory.initElements(webDriver, expectedPage);
+            return (T) new MainPage(webDriver);
         }
+    }
+
+    public MainPage LoginToTheMainPage(String email, String password) {
+        return login(email, password, MainPage.class);
+    }
+
+    public LoginPage LoginNegative(String email, String password) {
+        return login(email, password, this.getClass());
     }
 
     public boolean IsInvalidCredentialsDisplayed() {

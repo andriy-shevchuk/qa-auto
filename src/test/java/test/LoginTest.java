@@ -26,13 +26,13 @@ public class LoginTest {
 
     @Test
     public void PositiveLoginTest() {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isLoginPageLoaded(), "Login page is not loaded");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
         Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
 
-        MainPage mainPage = loginPage.login("denvert1@shotspotter.net","Test123!", MainPage.class);
+        MainPage mainPage = loginPage.LoginToTheMainPage("denvert1@shotspotter.net","Test123!");
 
         Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
@@ -42,13 +42,13 @@ public class LoginTest {
     public void NegativeLoginTest1() {
         String expectedErrorMsg = "The provided credentials are not correct.";
 
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        LoginPage loginPage = new LoginPage(webDriver);
         Assert.assertTrue(loginPage.isLoginPageLoaded(), "Login page is not loaded");
 
-        LoginPage resultPage = loginPage.login("IncorrectEmail", "IncorrectPassword", LoginPage.class);
-        Assert.assertTrue(resultPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");
+        loginPage = loginPage.LoginNegative("IncorrectEmail", "IncorrectPassword");
+        Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");
         Assert.assertEquals(loginPage.getErrorText(), expectedErrorMsg, "Error text is wrong");
-        Assert.assertTrue(resultPage.isLoginPageLoaded(), "Login page is not loaded");
+        Assert.assertTrue(loginPage.isLoginPageLoaded(), "Login page is not loaded");
     }
 
 }
