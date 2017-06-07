@@ -45,7 +45,7 @@ public class LoginPage extends BasePage{
     }
 
     public LoginPage LoginNegative(String email, String password) {
-        return login(email, password, this.getClass());
+        return login(email, password, LoginPage.class);
     }
 
     public boolean IsInvalidCredentialsDisplayed() {
