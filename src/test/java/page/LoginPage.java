@@ -26,6 +26,7 @@ public class LoginPage extends BasePage{
         super(driver);
         driver.navigate().to("https://alerts.shotspotter.biz/");
         PageFactory.initElements(webDriver, this);
+        isPageLoaded(emailField);
     }
 
     public <T> T login(String email, String password, Class <T> expectedPage) {
@@ -55,7 +56,7 @@ public class LoginPage extends BasePage{
         return waitUntilElementDisplayed(invalidCredentials, 15).getText();
     }
 
-    public boolean isLoginPageLoaded() {
+    public boolean isPageLoaded() {
         return waitUntilElementDisplayed(emailField, 15).isDisplayed();
     }
 }
