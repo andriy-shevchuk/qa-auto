@@ -1,6 +1,7 @@
 package test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import page.LoginPage;
@@ -16,6 +17,7 @@ public class LoginTest {
     @BeforeMethod
     public void beforeMethod() {
         webDriver = new FirefoxDriver();
+        webDriver.navigate().to("https://alerts.shotspotter.biz/");
     }
 
     @AfterMethod
@@ -25,12 +27,14 @@ public class LoginTest {
 
     @Test
     public void PositiveLoginTest() {
-        LoginPage loginPage = new LoginPage(webDriver);
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
         Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
 
         MainPage mainPage = loginPage.LoginToTheMainPage("denvert1@shotspotter.net","Test123!");
+        Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
     }
 
@@ -38,7 +42,8 @@ public class LoginTest {
     public void NegativeLoginTest1() {
         String expectedErrorMsg = "The provided credentials are not correct.";
 
-        LoginPage loginPage = new LoginPage(webDriver);
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
         loginPage = loginPage.LoginNegative("IncorrectEmail", "IncorrectPassword");
         Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");

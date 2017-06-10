@@ -24,20 +24,13 @@ public class LoginPage extends BasePage{
 
     public LoginPage (WebDriver driver) {
         super(driver);
-        driver.navigate().to("https://alerts.shotspotter.biz/");
-        PageFactory.initElements(webDriver, this);
-        isPageLoaded(emailField);
     }
 
     public <T> T login(String email, String password, Class <T> expectedPage) {
         emailField.sendKeys(email);
         passwordField.sendKeys(password);
         goButton.click();
-        if(expectedPage == LoginPage.class) {
-            return (T) this;
-        } else {
-            return (T) new MainPage(webDriver);
-        }
+        return PageFactory.initElements(webDriver, expectedPage);
     }
 
     public MainPage LoginToTheMainPage(String email, String password) {

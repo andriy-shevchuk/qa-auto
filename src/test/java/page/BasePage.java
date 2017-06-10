@@ -29,7 +29,5 @@ public class BasePage {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public boolean isPageLoaded(WebElement element) {
-        return waitUntilElementDisplayed(element, 15).isDisplayed();
-    }
+
 }
