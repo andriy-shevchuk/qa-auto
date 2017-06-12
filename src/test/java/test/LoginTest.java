@@ -7,8 +7,6 @@ import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
 
-import static java.lang.Thread.sleep;
-
 /**
  * Created by Admin on 20.05.2017.
  */
@@ -69,7 +67,6 @@ public class LoginTest {
 
         loginPage = mainPage.logout();
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-
     }
 
 }
