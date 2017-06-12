@@ -26,30 +26,27 @@ public class LoginPage extends BasePage{
         super(driver);
     }
 
-    public <T> T login(String email, String password, Class <T> expectedPage) {
+    public <T> T login(String email, String password) {
         emailField.sendKeys(email);
         passwordField.sendKeys(password);
         goButton.click();
-        return PageFactory.initElements(webDriver, expectedPage);
-    }
+        if (isElementDisplayed(goButton, 3)) {
+            return (T) this;
+        } else {
+            return (T) PageFactory.initElements(webDriver, MainPage.class);
+        }
 
-    public MainPage LoginToTheMainPage(String email, String password) {
-        return login(email, password, MainPage.class);
-    }
-
-    public LoginPage LoginNegative(String email, String password) {
-        return login(email, password, LoginPage.class);
     }
 
     public boolean IsInvalidCredentialsDisplayed() {
-        return waitUntilElementDisplayed(invalidCredentials, 15).isDisplayed();
+        return waitUntilElementDisplayed(invalidCredentials).isDisplayed();
     }
 
     public String getErrorText() {
-        return waitUntilElementDisplayed(invalidCredentials, 15).getText();
+        return waitUntilElementDisplayed(invalidCredentials).getText();
     }
 
     public boolean isPageLoaded() {
-        return waitUntilElementDisplayed(emailField, 15).isDisplayed();
+        return waitUntilElementDisplayed(emailField).isDisplayed();
     }
 }
