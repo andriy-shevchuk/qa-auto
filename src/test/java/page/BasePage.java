@@ -21,10 +21,22 @@ public class BasePage {
         return webDriver.getCurrentUrl();
     }
 
+    /**
+     * Common method to get current Page title
+     *
+     * @return String with current Page title
+     */
     public String getPageTitle() {
         return webDriver.getTitle();
     }
 
+    /**
+     * Waits until element is displayed using specific max timeout
+     *
+     * @param element WebElement to wait for
+     * @param timeout max timeout in seconds
+     * @return WebElement after expected condition
+     */
     public WebElement waitUntilElementDisplayed(WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(webDriver, timeout);
         //wait.until(ExpectedConditions.elementToBeClickable(element));
