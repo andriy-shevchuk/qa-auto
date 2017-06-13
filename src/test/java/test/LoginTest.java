@@ -68,5 +68,4 @@ public class LoginTest {
         loginPage = mainPage.logout();
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
     }
-
 }

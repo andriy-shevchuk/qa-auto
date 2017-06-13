@@ -13,8 +13,12 @@ public class MainPage extends BasePage {
     @FindBy(className = "settings")
     private WebElement settingsItem;
 
-    @FindBy(xpath = "//settings-drop-down//li[text() = 'Logout']")
+    @FindBy(xpath = "//li[text() = 'Logout']")
     private WebElement logoutElement;
+
+    @FindBy(xpath = "//div[@class='settings isOpen']")
+    private WebElement settingsMenu;
+
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -26,8 +30,8 @@ public class MainPage extends BasePage {
 
     public LoginPage logout() {
         settingsItem.click();
-        JavascriptExecutor executor = (JavascriptExecutor)webDriver;
-        executor.executeScript("arguments[0].click();", logoutElement);
+        waitUntilElementDisplayed(settingsMenu);
+        waitUntilElementDisplayed(logoutElement).click();
         return PageFactory.initElements(webDriver, LoginPage.class);
     }
 }
