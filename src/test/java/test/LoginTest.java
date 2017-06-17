@@ -12,21 +12,41 @@ import page.MainPage;
  */
 public class LoginTest {
 
+    /**
+     * Local Webdriver variable
+     */
     WebDriver webDriver;
+
+    /**
+     * Defines default username to login
+     */
     public String username = "sst.tau@gmail.com";
+
+    /**
+     * Defines password for default user
+     */
     public String password = "P@ssword123";
 
+    /**
+     * Initialises FirefoxDriver and navigates to LoginPage
+     */
     @BeforeMethod
     public void beforeMethod() {
         webDriver = new FirefoxDriver();
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
     }
 
+    /**
+     * Closes WebDriver instance
+     */
     @AfterMethod
     public void afterMethod() {
         webDriver.quit();
     }
 
+    /**
+     * Simple Positive Login Test
+     */
     @Test
     public void PositiveLoginTest() {
         LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
@@ -40,6 +60,9 @@ public class LoginTest {
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"),"Wrong url after Login");
     }
 
+    /**
+     * Simple Negative Login test
+     */
     @Test
     public void NegativeLoginTest1() {
         String expectedErrorMsg = "The provided credentials are not correct.";
@@ -53,6 +76,9 @@ public class LoginTest {
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
     }
 
+    /**
+     * Logout from MainPage test
+     */
     @Test
     public void TestLogout() {
         LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
