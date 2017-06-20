@@ -8,9 +8,11 @@ import page.LoginPage;
 import page.MainPage;
 
 /**
+ * Test class
+ *
  * Created by Admin on 20.05.2017.
  */
-public class LoginTest {
+public class Tests {
 
     /**
      * Local Webdriver variable

@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 /**
+ * PageObject MainPage class
+ *
  * Created by Admin on 30.05.2017.
  */
 public class MainPage extends BasePage {
@@ -26,7 +28,6 @@ public class MainPage extends BasePage {
      */
     @FindBy(xpath = "//div[@class='settings isOpen']")
     private WebElement settingsMenu;
-
 
     /**
      * MainPage constructor

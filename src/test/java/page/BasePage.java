@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
+ * PageObject BasePage class
+ *
  * Created by Admin on 03.06.2017.
  */
 public class BasePage {
@@ -79,7 +81,6 @@ public class BasePage {
         catch (TimeoutException e) {
             return false;
         }
-
         return true;
     }
 }

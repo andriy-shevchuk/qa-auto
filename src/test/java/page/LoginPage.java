@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 /**
+ * PageObject LoginPage class
+ *
  * Created by Admin on 27.05.2017.
  */
 public class LoginPage extends BasePage{
@@ -59,7 +61,6 @@ public class LoginPage extends BasePage{
         } else {
             return (T) PageFactory.initElements(webDriver, MainPage.class);
         }
-
     }
 
     /**
