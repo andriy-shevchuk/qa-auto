@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
  *
  * Created by Admin on 27.05.2017.
  */
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
 
     /**
      * Defines emailField WebElement
@@ -41,14 +41,14 @@ public class LoginPage extends BasePage{
      *
      * @param driver WebDriver instance
      */
-    public LoginPage (WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         super(driver);
     }
 
     /**
      * Common method to login into mainpage
      *
-     * @param email String user e-mail
+     * @param email    String user e-mail
      * @param password String user password
      * @return PageObject MainPage if login successful, LoginPage if not
      */

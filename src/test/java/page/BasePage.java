@@ -77,8 +77,7 @@ public class BasePage {
     public boolean isElementDisplayed(WebElement element, int timeout) {
         try {
             waitUntilElementDisplayed(element, timeout).isDisplayed();
-        }
-        catch (TimeoutException e) {
+        } catch (TimeoutException e) {
             return false;
         }
         return true;
