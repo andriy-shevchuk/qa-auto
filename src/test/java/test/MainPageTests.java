@@ -6,6 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import page.LoginPage;
 import page.MainPage;
@@ -73,4 +74,30 @@ public class MainPageTests {
 
     }
 
+    @DataProvider
+    public static Object[][] timeFrameOptions() {
+        return new Object[][] {{24},{3},{7}};
+    }
+
+    /**
+     * Test Incidents Period Switch and checks quantity of Incident Cards
+     */
+    @Test (dataProvider = "timeFrameOptions")
+    public void testIncidentsPeriodSwitchByDataProvider(int timeFrameOption) {
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
+        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
+
+        MainPage mainPage = loginPage.login(username, password);
+        Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
+        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong url after Login");
+
+        mainPage.switchTimeFramePeriod(timeFrameOption);
+        int resultsCount = mainPage.getResultsCount();
+        int IncidentCardsCount = mainPage.getIncidentCardsCount();
+        Assert.assertEquals(resultsCount, IncidentCardsCount, "Results count does not match incidentCardsCount");
+
+    }
 }
