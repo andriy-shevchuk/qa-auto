@@ -4,10 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
 
@@ -20,21 +17,25 @@ public class MainPageTests {
      * Local Webdriver variable
      */
     WebDriver webDriver;
+    MainPage mainPage;
 
     /**
      * Initialises FirefoxDriver and navigates to LoginPage
      */
-    @BeforeMethod
-    public void beforeMethod() {
+    @BeforeClass
+    public void beforeClass() {
         webDriver = new FirefoxDriver();
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.isPageLoaded();
+        mainPage = loginPage.login(username, password);
     }
 
     /**
      * Closes WebDriver instance
      */
-    @AfterMethod
-    public void afterMethod() {
+    @AfterClass
+    public void afterClass() {
         webDriver.quit();
     }
     /**
@@ -52,15 +53,6 @@ public class MainPageTests {
      */
     @Test
     public void testIncidentsPeriodSwitch() {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
-
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
-        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
-
-        MainPage mainPage = loginPage.login(username, password);
-        Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
-        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong url after Login");
 
         int[] timeFrameOtions = {24, 3, 7};
 
@@ -84,15 +76,7 @@ public class MainPageTests {
      */
     @Test (dataProvider = "timeFrameOptions")
     public void testIncidentsPeriodSwitchByDataProvider(int timeFrameOption) {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
-        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
-
-        MainPage mainPage = loginPage.login(username, password);
-        Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
-        Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong url after Login");
 
         mainPage.switchTimeFramePeriod(timeFrameOption);
         int resultsCount = mainPage.getResultsCount();
