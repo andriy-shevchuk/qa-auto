@@ -61,7 +61,7 @@ public class MainPageTests {
         Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong url after Login");
 
-        mainPage.switchTimeFramePeriod(3);
+        mainPage.switchTimeFramePeriod(24);
         int resultsCount = mainPage.getResultsCount();
         int IncidentCardsCount = mainPage.getIncidentCardsCount();
         Assert.assertEquals(resultsCount, IncidentCardsCount, "Results count does not match incidentCardsCount");

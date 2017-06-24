@@ -136,8 +136,11 @@ public class MainPage extends BasePage {
     public void waitForResultsCountRefresh(int selectedTimeFrameValue, int timeIncrementValue) {
         if (selectedTimeFrameValue != timeIncrementValue) {
             int currentTimeFrameValue = getResultsCount();
-            while (currentTimeFrameValue == getResultsCount()) {
-                getResultsCount();
+            long end = System.currentTimeMillis() + 15*1000; // 15 seconds * 1000 ms/sec
+            while (System.currentTimeMillis() < end) {
+                if (currentTimeFrameValue != getResultsCount()) {
+                    break;
+                }
             }
         }
     }
