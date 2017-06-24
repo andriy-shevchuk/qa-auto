@@ -47,7 +47,7 @@ public class MainPageTests {
     public String password = "Test123!";
 
     /**
-     * Simple Positive Login Test
+     * Test Incidents Period Switch and checks quantity of Incident Cards
      */
     @Test
     public void testIncidentsPeriodSwitch() {
@@ -61,7 +61,7 @@ public class MainPageTests {
         Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong url after Login");
 
-        mainPage.switchTimeFramePeriod(24);
+        mainPage.switchTimeFramePeriod(7);
         int resultsCount = mainPage.getResultsCount();
         int IncidentCardsCount = mainPage.getIncidentCardsCount();
         Assert.assertEquals(resultsCount, IncidentCardsCount, "Results count does not match incidentCardsCount");

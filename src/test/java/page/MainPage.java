@@ -38,15 +38,6 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//div[@class='available-options']")
     private WebElement optionsList;
 
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//span[text()='24']")
-    private  WebElement timeFrameSwitch24h;
-
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//span[text()='3']")
-    private  WebElement timeFrameSwitch3days;
-
-    @FindBy(xpath = "//filter-menu//div[@class='available-options']//span[text()='7']")
-    private  WebElement timeFrameSwitch7days;
-
     @FindBy(xpath = "//*[@class='result-count']")
     private WebElement resultsCount;
 
@@ -62,6 +53,18 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//div[@class='incidents']")
     private WebElement incidentsPanel;
 
+
+    /**
+     * Finds WebElement according to selected timeIncrementValue
+     *
+     * @param timeIncrementValue integer which timeFrame to choose
+     * @return WebElement of chosen timeIncrement
+     */
+    private WebElement getTimeFramePeriodOption(int timeIncrementValue) {
+        String xpath = String.format("//filter-menu//div[@class='available-options']//span[text()='%d']", timeIncrementValue);
+        WebElement timeFrameSwitch = webDriver.findElement(By.xpath(xpath));
+        return timeFrameSwitch;
+    }
 
     /**
      * MainPage constructor
@@ -111,21 +114,10 @@ public class MainPage extends BasePage {
         int selectedTimeFrameValue = Integer.parseInt(currentTimeFrameValue.getText());
         incidentsTimeFrameSwitch.click();
         waitUntilElementDisplayed(optionsList);
-        waitUntilElementDisplayed(chooseTimeIncrement(timeIncrementValue)).click();
+        waitUntilElementDisplayed(getTimeFramePeriodOption(timeIncrementValue)).click();
         waitForResultsCountRefresh(selectedTimeFrameValue, timeIncrementValue);
     }
 
-    /**
-     * Finds WebElement according to selected timeIncrementValue
-     *
-     * @param timeIncrementValue integer which timeFrame to choose
-     * @return WebElement of chosen timeIncrement
-     */
-    private WebElement chooseTimeIncrement(int timeIncrementValue) {
-        String xpath = "//filter-menu//div[@class='available-options']//span[text()='"+timeIncrementValue+"']";
-        WebElement timeFrameSwitch = webDriver.findElement(By.xpath(xpath));
-        return timeFrameSwitch;
-    }
 
     /**
      * Waits of proper resultsCount
