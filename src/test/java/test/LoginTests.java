@@ -5,6 +5,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import page.LoginPage;
 import page.MainPage;
 
@@ -19,33 +22,38 @@ public class LoginTests {
      * Local Webdriver variable
      */
     WebDriver webDriver;
+    LoginPage loginPage;
 
     /**
      * Initialises FirefoxDriver and navigates to LoginPage
      */
-    @BeforeMethod
-    public void beforeMethod() {
+    @BeforeClass
+    public void beforeClass() {
         webDriver = new FirefoxDriver();
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
+        loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.isPageLoaded();
     }
 
     /**
      * Closes WebDriver instance
      */
-    @AfterMethod
-    public void afterMethod() {
+    @AfterClass
+    public void afterClass() {
         webDriver.quit();
     }
 
     /**
      * Defines default username to login
      */
-    public String username = "sst.tau@gmail.com";
+    //public String username = "sst.tau@gmail.com";
+    public String username = "denvert1@shotspotter.net";
 
     /**
      * Defines password for default user
      */
-    public String password = "P@ssword123";
+    //public String password = "P@ssword123";
+    public String password = "Test123!";
 
 
 
@@ -54,7 +62,6 @@ public class LoginTests {
      */
     @Test
     public void PositiveLoginTest() {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
@@ -67,7 +74,7 @@ public class LoginTests {
 
 
     @DataProvider
-    public static Object[][] NegativeLOginTestProvider() {
+    public static Object[][] NegativeLoginTestProvider() {
         return new Object[][] {
                 {"IncorrectLogin", "IncorrectPassword", "The provided credentials are not correct."},
                 {"sst.tau@gmail.com", "IncorrectPassword", "The provided credentials are not correct."},
@@ -79,10 +86,8 @@ public class LoginTests {
     /**
      * Simple Negative Login test
      */
-    @Test (dataProvider = "NegativeLOginTestProvider")
+    @Test (dataProvider = "NegativeLoginTestProvider")
     public void NegativeLoginTest1(String email, String password, String invalidCredentialsText) {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
         loginPage = loginPage.login(email, password);
         Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");
@@ -96,7 +101,6 @@ public class LoginTests {
      */
     @Test
     public void TestLogout() {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
