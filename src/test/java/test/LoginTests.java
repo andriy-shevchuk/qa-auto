@@ -65,20 +65,30 @@ public class LoginTests {
         Assert.assertTrue(mainPage.getPageURL().contains("https://alerts.shotspotter.biz/main"), "Wrong url after Login");
     }
 
+
+    @DataProvider
+    public static Object[][] NegativeLOginTestProvider() {
+        return new Object[][] {
+                {"IncorrectLogin", "IncorrectPassword", "The provided credentials are not correct."},
+                {"sst.tau@gmail.com", "IncorrectPassword", "The provided credentials are not correct."},
+                {"", "", "The provided credentials are not correct."}
+        };
+    }
+
+
     /**
      * Simple Negative Login test
      */
-    @Test
-    public void NegativeLoginTest1() {
-        String expectedErrorMsg = "The provided credentials are not correct.";
-
+    @Test (dataProvider = "NegativeLOginTestProvider")
+    public void NegativeLoginTest1(String email, String password, String invalidCredentialsText) {
         LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
-        loginPage = loginPage.login(username, "IncorrectPassword");
+        loginPage = loginPage.login(email, password);
         Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");
-        Assert.assertEquals(loginPage.getErrorText(), expectedErrorMsg, "Error text is wrong");
+        Assert.assertEquals(loginPage.getErrorText(), invalidCredentialsText, "Error text is wrong");
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+        loginPage.clearCredentials();
     }
 
     /**

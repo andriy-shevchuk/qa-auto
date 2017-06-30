@@ -89,4 +89,9 @@ public class LoginPage extends BasePage {
     public boolean isPageLoaded() {
         return waitUntilElementDisplayed(emailField).isDisplayed();
     }
+
+    public void clearCredentials() {
+        emailField.clear();
+        passwordField.clear();
+    }
 }
