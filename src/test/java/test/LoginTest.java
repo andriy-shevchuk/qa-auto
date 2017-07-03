@@ -16,7 +16,7 @@ import page.MainPage;
  *
  * Created by Admin on 20.05.2017.
  */
-public class LoginTests {
+public class LoginTest {
 
     /**
      * Local Webdriver variable
@@ -87,7 +87,7 @@ public class LoginTests {
      * Simple Negative Login test
      */
     @Test (dataProvider = "NegativeLoginTestProvider")
-    public void NegativeLoginTest1(String email, String password, String invalidCredentialsText) {
+    public void NegativeLoginTest(String email, String password, String invalidCredentialsText) {
 
         loginPage = loginPage.login(email, password);
         Assert.assertTrue(loginPage.IsInvalidCredentialsDisplayed(), "Invalid credentials is not displayed");
