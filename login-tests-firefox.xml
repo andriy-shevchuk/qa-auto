@@ -1,7 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="LoginTests" verbose="1" >
-    <test name="LoginTests" >
+<suite name="LoginTests" verbose="1">
+    <test name="LoginTestsFirefox" >
+        <parameter name="browserName" value="firefox"/>
         <classes>
             <class name="test.LoginTest" />
         </classes>

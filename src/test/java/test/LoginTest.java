@@ -1,6 +1,7 @@
 package test;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -27,9 +28,10 @@ public class LoginTest {
     /**
      * Initialises FirefoxDriver and navigates to LoginPage
      */
+    @Parameters ({ "browserName" })
     @BeforeClass
-    public void beforeClass() {
-        webDriver = new FirefoxDriver();
+    public void beforeClass(String browserName) {
+        StartBrowser(browserName);
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
         loginPage = PageFactory.initElements(webDriver, LoginPage.class);
         loginPage.isPageLoaded();
@@ -112,5 +114,14 @@ public class LoginTest {
 
         loginPage = mainPage.logout();
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+    }
+
+    public void StartBrowser (String browserName) {
+        if (browserName.equalsIgnoreCase("chrome")) {
+            System.setProperty("webdriver.chrome.driver", "D:/Downloads/chromedriver_win32/chromedriver.exe");
+            webDriver = new ChromeDriver();
+        } else if (browserName.equalsIgnoreCase("firefox")) {
+            webDriver = new FirefoxDriver();
+        }
     }
 }
