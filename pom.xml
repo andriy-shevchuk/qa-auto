@@ -8,6 +8,10 @@
     <artifactId>qa-auto</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <suiteXmlFile>login-tests-chrome.xml</suiteXmlFile>
+    </properties>
+
     <build>
         <plugins>
             <plugin>

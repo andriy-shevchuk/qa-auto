@@ -30,7 +30,7 @@ public class LoginTest {
      */
     @Parameters ({ "browserName" })
     @BeforeClass
-    public void beforeClass(String browserName) {
+    public void beforeClass(@Optional ("firefox") String browserName) {
         StartBrowser(browserName);
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
         loginPage = PageFactory.initElements(webDriver, LoginPage.class);
@@ -88,7 +88,7 @@ public class LoginTest {
     /**
      * Simple Negative Login test
      */
-    @Test (dataProvider = "NegativeLoginTestProvider")
+    @Test (dataProvider = "NegativeLoginTestProvider", enabled = false)
     public void NegativeLoginTest(String email, String password, String invalidCredentialsText) {
 
         loginPage = loginPage.login(email, password);
@@ -101,7 +101,7 @@ public class LoginTest {
     /**
      * Logout from MainPage test
      */
-    @Test
+    @Test (enabled = false)
     public void TestLogout() {
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
