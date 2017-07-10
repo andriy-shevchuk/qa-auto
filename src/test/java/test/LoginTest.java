@@ -118,9 +118,10 @@ public class LoginTest {
 
     public void StartBrowser (String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
-            System.setProperty("webdriver.chrome.driver", "D:/Downloads/chromedriver_win32/chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/src/test/java/test/resources/chromedriver.exe");
             webDriver = new ChromeDriver();
         } else if (browserName.equalsIgnoreCase("firefox")) {
+            System.setProperty("webdriver.gecko.driver",  System.getProperty("user.dir") + "/src/test/java/test/resources/geckodriver.exe");
             webDriver = new FirefoxDriver();
         }
     }
