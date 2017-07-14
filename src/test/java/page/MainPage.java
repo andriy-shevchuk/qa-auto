@@ -53,6 +53,10 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//div[@class='incidents']")
     private WebElement incidentsPanel;
 
+    //addresses list
+    //incident-list//incident-card//div[@class='incident']//div[@class='address']
+    // also find city, and check if it is Denver, check time differs from each other
+
 
     /**
      * Finds WebElement according to selected timeIncrementValue

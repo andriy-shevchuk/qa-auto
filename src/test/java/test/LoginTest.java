@@ -1,5 +1,6 @@
 package test;
 
+import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -118,10 +119,11 @@ public class LoginTest {
 
     public void StartBrowser (String browserName) {
         if (browserName.equalsIgnoreCase("chrome")) {
-            System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/src/test/java/test/resources/chromedriver.exe");
+            ChromeDriverManager.getInstance().setup();
+            //System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
             webDriver = new ChromeDriver();
         } else if (browserName.equalsIgnoreCase("firefox")) {
-            System.setProperty("webdriver.gecko.driver",  System.getProperty("user.dir") + "/src/test/java/test/resources/geckodriver.exe");
+            System.setProperty("webdriver.gecko.driver",  System.getProperty("user.dir") + "/src/testresources/geckodriver.exe");
             webDriver = new FirefoxDriver();
         }
     }
