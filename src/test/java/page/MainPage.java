@@ -62,13 +62,6 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='cell day']//div[@class='content']")
     private List<WebElement> timeList;
 
-    //addresses list
-    //incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='address']
-    //incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='city S']
-    //incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='cell day']//div[@class='content']
-    // also find city, and check if it is Denver, check time differs from each other
-
-
     /**
      * Finds WebElement according to selected timeIncrementValue
      *
@@ -164,23 +157,16 @@ public class MainPage extends BasePage {
     }
 
     public boolean isAddressesListContainsEmptyStrings() {
-        System.out.println(addressesList.size());
-        for (WebElement address : addressesList) {
-            System.out.println(address.getText());
-
-            if (address.getText() == "") {
+         for (WebElement address : addressesList) {
+           if (address.getText() == "") {
                 return true;
             }
-
-
-
         }
         return false;
     }
 
     public boolean isAllCitiesContainText(String cityText) {
         for (WebElement city : citiesList) {
-            System.out.println(city.getText());
             if (!city.getText().contains(cityText)) {
                 return false;
             }
@@ -196,9 +182,7 @@ public class MainPage extends BasePage {
            timeTextList.add(timeElement.getText());
        }
 
-        Set<String> timeTextUnique = new HashSet<String>(timeTextList);
-        System.out.println(timeTextUnique.size());
-        System.out.println(timeTextList.size());
+       Set<String> timeTextUnique = new HashSet<String>(timeTextList);
 
        if (timeTextUnique.size() == timeTextList.size()) {
            return true;

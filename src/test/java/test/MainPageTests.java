@@ -64,7 +64,6 @@ public class MainPageTests extends BaseTest {
             Assert.assertEquals(resultsCount, IncidentCardsCount, "Results count does not match incidentCardsCount");
         }
 
-
     }
 
     @DataProvider
@@ -78,7 +77,6 @@ public class MainPageTests extends BaseTest {
     @Test (dataProvider = "timeFrameOptions")
     public void testIncidentsPeriodSwitchByDataProvider(int timeFrameOption) {
 
-
         mainPage.switchTimeFramePeriod(timeFrameOption);
         int resultsCount = mainPage.getResultsCount();
         int IncidentCardsCount = mainPage.getIncidentCardsCount();
@@ -91,14 +89,8 @@ public class MainPageTests extends BaseTest {
      */
     @Test
     public void testIncidentsDetails() {
-
-        mainPage.switchTimeFramePeriod(7);
-
         Assert.assertFalse(mainPage.isAddressesListContainsEmptyStrings(), "Addresses list contains empty strings" );
         Assert.assertTrue(mainPage.isAllCitiesContainText("Denver"), "Not all cities are Denver" );
         Assert.assertTrue(mainPage.isTimeListContainsUniqueElements(), "Elements of timeList are not unique" );
-
-
-
     }
 }
