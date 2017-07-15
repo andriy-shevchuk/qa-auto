@@ -1,17 +1,17 @@
 package test;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
 
+
 /**
  * Created by Admin on 20.06.2017.
  */
-public class MainPageTests {
+public class MainPageTests extends BaseTest {
 
     /**
      * Local Webdriver variable
@@ -22,9 +22,10 @@ public class MainPageTests {
     /**
      * Initialises FirefoxDriver and navigates to LoginPage
      */
+    @Parameters ({ "browserName" })
     @BeforeClass
-    public void beforeClass() {
-        webDriver = new FirefoxDriver();
+    public void beforeClass(@Optional ("firefox") String browserName) {
+        webDriver = StartBrowser(browserName);
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
         LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
         loginPage.isPageLoaded();
@@ -82,6 +83,22 @@ public class MainPageTests {
         int resultsCount = mainPage.getResultsCount();
         int IncidentCardsCount = mainPage.getIncidentCardsCount();
         Assert.assertEquals(resultsCount, IncidentCardsCount, "Results count does not match incidentCardsCount");
+
+    }
+
+    /**
+     * Test Incidents Period Switch and checks quantity of Incident Cards
+     */
+    @Test
+    public void testIncidentsDetails() {
+
+        mainPage.switchTimeFramePeriod(7);
+
+        Assert.assertFalse(mainPage.isAddressesListContainsEmptyStrings(), "Addresses list contains empty strings" );
+        Assert.assertTrue(mainPage.isAllCitiesContainText("Denver"), "Not all cities are Denver" );
+        Assert.assertTrue(mainPage.isTimeListContainsUniqueElements(), "Elements of timeList are not unique" );
+
+
 
     }
 }

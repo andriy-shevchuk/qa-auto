@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * PageObject MainPage class
@@ -53,8 +53,19 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//div[@class='incidents']")
     private WebElement incidentsPanel;
 
+    @FindBy(xpath = "//incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='address']")
+    private List<WebElement> addressesList;
+
+    @FindBy(xpath = "//incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='city S']")
+    private List<WebElement> citiesList;
+
+    @FindBy(xpath = "//incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='cell day']//div[@class='content']")
+    private List<WebElement> timeList;
+
     //addresses list
-    //incident-list//incident-card//div[@class='incident']//div[@class='address']
+    //incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='address']
+    //incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='city S']
+    //incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='cell day']//div[@class='content']
     // also find city, and check if it is Denver, check time differs from each other
 
 
@@ -151,5 +162,51 @@ public class MainPage extends BasePage {
         waitUntilElementDisplayed(incidentsPanel);
         return incidentsCardsList.size();
     }
+
+    public boolean isAddressesListContainsEmptyStrings() {
+        System.out.println(addressesList.size());
+        for (WebElement address : addressesList) {
+            System.out.println(address.getText());
+
+            if (address.getText() == "") {
+                return true;
+            }
+
+
+
+        }
+        return false;
+    }
+
+    public boolean isAllCitiesContainText(String cityText) {
+        for (WebElement city : citiesList) {
+            System.out.println(city.getText());
+            if (!city.getText().contains(cityText)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isTimeListContainsUniqueElements() {
+
+       List<String> timeTextList = new ArrayList<>();
+
+       for (WebElement timeElement : timeList) {
+           timeTextList.add(timeElement.getText());
+       }
+
+        Set<String> timeTextUnique = new HashSet<String>(timeTextList);
+        System.out.println(timeTextUnique.size());
+        System.out.println(timeTextList.size());
+
+       if (timeTextUnique.size() == timeTextList.size()) {
+           return true;
+       } else {
+           return false;
+       }
+
+    }
+
 }
 

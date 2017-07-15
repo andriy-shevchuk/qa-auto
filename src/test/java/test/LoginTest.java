@@ -18,7 +18,7 @@ import page.MainPage;
  *
  * Created by Admin on 20.05.2017.
  */
-public class LoginTest {
+public class LoginTest extends BaseTest {
 
     /**
      * Local Webdriver variable
@@ -32,7 +32,7 @@ public class LoginTest {
     @Parameters ({ "browserName" })
     @BeforeClass
     public void beforeClass(@Optional ("firefox") String browserName) {
-        StartBrowser(browserName);
+        webDriver = StartBrowser(browserName);
         webDriver.navigate().to("https://alerts.shotspotter.biz/");
         loginPage = PageFactory.initElements(webDriver, LoginPage.class);
         loginPage.isPageLoaded();
@@ -117,14 +117,5 @@ public class LoginTest {
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
     }
 
-    public void StartBrowser (String browserName) {
-        if (browserName.equalsIgnoreCase("chrome")) {
-            ChromeDriverManager.getInstance().setup();
-            //System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
-            webDriver = new ChromeDriver();
-        } else if (browserName.equalsIgnoreCase("firefox")) {
-            System.setProperty("webdriver.gecko.driver",  System.getProperty("user.dir") + "/src/testresources/geckodriver.exe");
-            webDriver = new FirefoxDriver();
-        }
-    }
+
 }
