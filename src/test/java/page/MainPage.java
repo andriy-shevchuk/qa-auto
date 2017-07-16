@@ -8,6 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 /**
  * PageObject MainPage class
  *
@@ -25,6 +27,13 @@ public class MainPage extends BasePage {
      */
     @FindBy(xpath = "//li[text() = 'Logout']")
     private WebElement logoutElement;
+
+    /**
+     * Defines aboutElement element
+     */
+    @FindBy(xpath = "//li[text() = 'About']")
+    private WebElement aboutElement;
+
 
     /**
      * Defines settingsMenu element
@@ -61,6 +70,10 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//incident-list//incident-card//div[contains(@class, 'incident')]//div[@class='cell day']//div[@class='content']")
     private List<WebElement> timeList;
+
+    @FindBy(xpath = "//a[text()='terms of service']")
+    private WebElement termsOfServiceLink;
+
 
     /**
      * Finds WebElement according to selected timeIncrementValue
@@ -158,16 +171,16 @@ public class MainPage extends BasePage {
 
     public boolean isAddressesListContainsEmptyStrings() {
          for (WebElement address : addressesList) {
-           if (address.getText() == "") {
+           if (address.getText().equalsIgnoreCase("")) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isAllCitiesContainText(String cityText) {
+    public boolean isAllCitiesEqualsTo(String cityText) {
         for (WebElement city : citiesList) {
-            if (!city.getText().contains(cityText)) {
+            if (!city.getText().equalsIgnoreCase(cityText)) {
                 return false;
             }
         }
@@ -189,6 +202,54 @@ public class MainPage extends BasePage {
        } else {
            return false;
        }
+
+    }
+
+    public void openIncidentsList() {
+        listButton.click();
+        waitUntilElementDisplayed(incidentsCardsList.get(1), 5);
+    }
+
+    public List<String> getIncidentCardsCities() {
+        List<String> listCities = new ArrayList<String>();
+        for (WebElement incidentCard: incidentsCardsList) {
+            String cityText = incidentCard.findElement(By.xpath("//div[@class='city S']")).getText();
+            listCities.add(cityText);
+        }
+        return listCities;
+    }
+
+    public List<String> getIncidentCardsStreets() {
+        List<String> listStreets = new ArrayList<String>();
+        for (WebElement incidentCard: incidentsCardsList) {
+            String streetText = incidentCard.findElement(By.xpath("//div[@class='address']")).getText();
+            listStreets.add(streetText);
+        }
+        return listStreets;
+    }
+
+    public List<String> getIncidentCardsTimeStamps() {
+        List<String> listTimeStamp = new ArrayList<String>();
+        for (WebElement incidentCard: incidentsCardsList) {
+            String timeStampText = incidentCard.findElement(By.xpath("//div[@class='cell day']//div[@class='content']")).getText();
+            listTimeStamp.add(timeStampText);
+        }
+        return listTimeStamp;
+    }
+
+
+    public TermsOfServicePage goToAboutPage() {
+        settingsItem.click();
+        waitUntilElementDisplayed(settingsMenu);
+        aboutElement.click();
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //waitUntilElementDisplayed(termsOfServiceLink, 5);
+        termsOfServiceLink.click();
+        return PageFactory.initElements(webDriver, TermsOfServicePage.class);
 
     }
 

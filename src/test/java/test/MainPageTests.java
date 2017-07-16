@@ -6,6 +6,11 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import page.LoginPage;
 import page.MainPage;
+import page.TermsOfServicePage;
+
+import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 
 /**
@@ -90,7 +95,44 @@ public class MainPageTests extends BaseTest {
     @Test
     public void testIncidentsDetails() {
         Assert.assertFalse(mainPage.isAddressesListContainsEmptyStrings(), "Addresses list contains empty strings" );
-        Assert.assertTrue(mainPage.isAllCitiesContainText("Denver"), "Not all cities are Denver" );
+        Assert.assertTrue(mainPage.isAllCitiesEqualsTo("Denver"), "Not all cities are Denver" );
         Assert.assertTrue(mainPage.isTimeListContainsUniqueElements(), "Elements of timeList are not unique" );
+    }
+
+    @Test
+    public void testInsidentsDetails() {
+        String expectedCity = "Denver";
+        mainPage.openIncidentsList();
+        List<String> listCities = mainPage.getIncidentCardsCities();
+        List<String> listStreets = mainPage.getIncidentCardsStreets();
+        List<String> listTimeStamps = mainPage.getIncidentCardsTimeStamps();
+
+        for (String elementCity: listCities) {
+            Assert.assertEquals(expectedCity, elementCity, "City is not Denver");
+        }
+
+        for (String elementStreet: listStreets) {
+            Assert.assertNotEquals(elementStreet, "", "Street address is empty");
+        }
+
+        for (String elementTimeStamp: listTimeStamps) {
+            Assert.assertNotEquals(elementTimeStamp, "", "TimeStamp is empty");
+        }
+
+    }
+
+    @Test
+    public void TermsOfServiceOpenTest() {
+        TermsOfServicePage termsOfServicePage = mainPage.goToAboutPage();
+        //Assert.assertEquals(termsOfServicePage.getPageTitle(), );
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(termsOfServicePage.getPageTitle());
+        System.out.println(termsOfServicePage.getPageURL());
+
+
     }
 }
