@@ -10,7 +10,6 @@ import page.TermsOfServicePage;
 
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 
 /**
@@ -102,10 +101,12 @@ public class MainPageTests extends BaseTest {
     @Test
     public void testInsidentsDetails() {
         String expectedCity = "Denver";
+        mainPage.switchTimeFramePeriod(7);
         mainPage.openIncidentsList();
-        List<String> listCities = mainPage.getIncidentCardsCities();
-        List<String> listStreets = mainPage.getIncidentCardsStreets();
-        List<String> listTimeStamps = mainPage.getIncidentCardsTimeStamps();
+
+        List<String> listCities = mainPage.getIncidentCardsDetails("Cities");
+        List<String> listStreets = mainPage.getIncidentCardsDetails("Streets");
+        List<String> listTimeStamps = mainPage.getIncidentCardsDetails("TimeStamps");
 
         for (String elementCity: listCities) {
             Assert.assertEquals(expectedCity, elementCity, "City is not Denver");
@@ -123,16 +124,23 @@ public class MainPageTests extends BaseTest {
 
     @Test
     public void TermsOfServiceOpenTest() {
-        TermsOfServicePage termsOfServicePage = mainPage.goToAboutPage();
-        //Assert.assertEquals(termsOfServicePage.getPageTitle(), );
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(termsOfServicePage.getPageTitle());
-        System.out.println(termsOfServicePage.getPageURL());
 
+        String firstTab = webDriver.getWindowHandle();
+
+        TermsOfServicePage termsOfServicePage = mainPage.goToTermsOfServicePage();
+
+        for(String winHandle : webDriver.getWindowHandles()){
+            webDriver.switchTo().window(winHandle);
+        }
+
+        termsOfServicePage.isPageLoaded();
+
+        Assert.assertEquals(termsOfServicePage.getPageTitle(), "Apps-TOS", "Page title does not match");
+        Assert.assertEquals(termsOfServicePage.getPageURL(), "http://www.shotspotter.com/apps/tos", "Page url does not match");
+
+        webDriver.close();
+        webDriver.switchTo().window(firstTab);
+        mainPage.closePopup();
 
     }
 }

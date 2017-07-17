@@ -1,5 +1,6 @@
 package page;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.*;
 
-import static java.lang.Thread.sleep;
+
 
 /**
  * PageObject MainPage class
@@ -73,6 +74,10 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//a[text()='terms of service']")
     private WebElement termsOfServiceLink;
+
+    @FindBy(xpath = "//button[contains(text(), 'Close')]")
+    private WebElement closeButton;
+
 
 
     /**
@@ -169,6 +174,11 @@ public class MainPage extends BasePage {
         return incidentsCardsList.size();
     }
 
+    /**
+     * Checks if Addresses list contains empty Strings
+     *
+     * @return true if contains, false if not
+     */
     public boolean isAddressesListContainsEmptyStrings() {
          for (WebElement address : addressesList) {
            if (address.getText().equalsIgnoreCase("")) {
@@ -178,6 +188,12 @@ public class MainPage extends BasePage {
         return false;
     }
 
+    /**
+     * Checks if all Cities in Cities list are equal to string
+     *
+     * @param cityText String city to check
+     * @return true if all cities are cityText, false if not
+     */
     public boolean isAllCitiesEqualsTo(String cityText) {
         for (WebElement city : citiesList) {
             if (!city.getText().equalsIgnoreCase(cityText)) {
@@ -187,6 +203,11 @@ public class MainPage extends BasePage {
         return true;
     }
 
+    /**
+     * Checks if Time list contains unique elements
+     *
+     * @return true if Time list contains unique elements
+     */
     public boolean isTimeListContainsUniqueElements() {
 
        List<String> timeTextList = new ArrayList<>();
@@ -205,11 +226,19 @@ public class MainPage extends BasePage {
 
     }
 
+    /**
+     * Opens incidents list
+     */
     public void openIncidentsList() {
         listButton.click();
         waitUntilElementDisplayed(incidentsCardsList.get(1), 5);
     }
 
+    /**
+     * Gets list of Cities from Incidents cards list
+     *
+     * @return listCities List
+     */
     public List<String> getIncidentCardsCities() {
         List<String> listCities = new ArrayList<String>();
         for (WebElement incidentCard: incidentsCardsList) {
@@ -219,6 +248,11 @@ public class MainPage extends BasePage {
         return listCities;
     }
 
+    /**
+     * Gets List of Streets from Incidents cards list
+     *
+     * @return listStreets List
+     */
     public List<String> getIncidentCardsStreets() {
         List<String> listStreets = new ArrayList<String>();
         for (WebElement incidentCard: incidentsCardsList) {
@@ -228,6 +262,11 @@ public class MainPage extends BasePage {
         return listStreets;
     }
 
+    /**
+     * Gets List of TimeStamps from Incidents cards list
+     *
+     * @return listTimeStamp List
+     */
     public List<String> getIncidentCardsTimeStamps() {
         List<String> listTimeStamp = new ArrayList<String>();
         for (WebElement incidentCard: incidentsCardsList) {
@@ -237,21 +276,59 @@ public class MainPage extends BasePage {
         return listTimeStamp;
     }
 
+    /**
+     * Gets List of desired Incident cards details elements
+     *
+     * @param details String "cities", "streets", "timestamps"
+     * @return listDetails List of WebElements
+     */
+    public List<String> getIncidentCardsDetails(String details) {
+        List<String> listDetails = new ArrayList<>();
+        String elementXpath = getCardsDetailsElementXpath(details);
+        for (WebElement cardsElement: incidentsCardsList) {
+            String cardsElementText = cardsElement.findElement(By.xpath(elementXpath)).getText();
+            listDetails.add(cardsElementText);
+        }
+        return listDetails;
+    }
 
-    public TermsOfServicePage goToAboutPage() {
+    /**
+     * Gets Xpath String to find Incident cards details List of WebElements
+     *
+     * @param details String "cities", "streets", "timestamps"
+     * @return String with xPath of Incident cards Details elements cities, streets, timestamps
+     */
+    public String getCardsDetailsElementXpath(String details) {
+        switch (details.toLowerCase()) {
+            case "cities":
+                return "//div[@class='city S']";
+            case "streets":
+                return "//div[@class='address']";
+            case "timestamps":
+                return "//div[@class='cell day']//div[@class='content']";
+            default:
+                return "";
+        }
+    }
+
+    /**
+     * Opens settings menu, clicks About, clicks Terms of Srevice Link
+     *
+     * @return TermsOfService PageObject
+     */
+    public TermsOfServicePage goToTermsOfServicePage() {
         settingsItem.click();
         waitUntilElementDisplayed(settingsMenu);
         aboutElement.click();
-        try {
-            sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //waitUntilElementDisplayed(termsOfServiceLink, 5);
-        termsOfServiceLink.click();
+        waitUntilElementDisplayed(termsOfServiceLink).click();
         return PageFactory.initElements(webDriver, TermsOfServicePage.class);
-
     }
 
+    /**
+     * Closes Popup window on the MainPage
+     */
+    public void closePopup() {
+        closeButton.click();
+    }
 }
 

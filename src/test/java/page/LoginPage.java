@@ -90,6 +90,9 @@ public class LoginPage extends BasePage {
         return waitUntilElementDisplayed(emailField).isDisplayed();
     }
 
+    /**
+     * Clears emailField and PasswordField
+     */
     public void clearCredentials() {
         emailField.clear();
         passwordField.clear();

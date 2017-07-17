@@ -1,15 +1,10 @@
 package page;
 
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * PageObject MainPage class
@@ -18,6 +13,9 @@ import java.util.Set;
  */
 public class TermsOfServicePage extends BasePage {
 
+    @FindBy(xpath = "//b[contains(text(), 'Questions')]")
+    private WebElement questionsElement;
+
     /**
      * TermsOfServicePage constructor
      *
@@ -25,6 +23,10 @@ public class TermsOfServicePage extends BasePage {
      */
     public TermsOfServicePage(WebDriver driver) {
         super(driver);
+    }
+
+    public boolean isPageLoaded() {
+        return waitUntilElementDisplayed(questionsElement, 15).isDisplayed();
     }
 
 }
