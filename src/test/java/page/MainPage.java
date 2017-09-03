@@ -301,11 +301,11 @@ public class MainPage extends BasePage {
     public String getCardsDetailsElementXpath(String details) {
         switch (details.toLowerCase()) {
             case "cities":
-                return "//div[@class='city S']";
+                return ".//div[@class='city S']";
             case "streets":
-                return "//div[@class='address']";
+                return ".//div[@class='address']";
             case "timestamps":
-                return "//div[@class='cell day']//div[@class='content']";
+                return ".//div[@class='cell day']//div[@class='content']";
             default:
                 return "";
         }
@@ -329,6 +329,19 @@ public class MainPage extends BasePage {
      */
     public void closePopup() {
         closeButton.click();
+    }
+
+
+    public boolean ifCardsListContainsStreet(String street) {
+
+        List<String> listStreets = getIncidentCardsDetails("Streets");
+            for (String elementStreet: listStreets) {
+                System.out.println(street);
+            if (elementStreet.contains(street)) {
+                return true;
+                }
+        }
+        return false;
     }
 }
 

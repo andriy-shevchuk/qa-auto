@@ -65,7 +65,7 @@ public class LoginTest extends BaseTest {
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
         Assert.assertEquals(loginPage.getPageURL(), "https://alerts.shotspotter.biz/", "Wrong url on Login Page");
-        Assert.assertEquals(loginPage.getPageTitle(), "Shotspotter - Login", "Main page title is wrong");
+        Assert.assertEquals(loginPage.getPageTitle(), "ShotSpotter - Login", "Main page title is wrong");
 
         MainPage mainPage = loginPage.login(username, password);
         Assert.assertTrue(mainPage.isPageLoaded(), "settings icon is not displayed");
